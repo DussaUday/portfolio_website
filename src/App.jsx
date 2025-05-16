@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
@@ -11,7 +10,6 @@ import Footer from './components/Footer';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
-    // Check localStorage for theme preference or use system preference
     if (typeof window !== 'undefined') {
       const savedMode = localStorage.getItem('darkMode');
       if (savedMode !== null) {
@@ -27,13 +25,11 @@ function App() {
   };
 
   useEffect(() => {
-    // Apply dark mode class to document
     if (darkMode) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-    // Save preference to localStorage
     localStorage.setItem('darkMode', darkMode);
   }, [darkMode]);
 

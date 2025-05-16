@@ -1,4 +1,3 @@
-// src/components/Intro.jsx
 import { motion } from 'framer-motion';
 
 const Intro = () => {
@@ -13,17 +12,17 @@ const Intro = () => {
           className="max-w-4xl mx-auto text-center"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800 dark:text-white">
-            About <span className="text-blue-600 dark:text-blue-400">Portfolio Creator</span>
+            About <span className="text-blue-600 dark:text-blue-400">Website Creator</span>
           </h2>
           <div className="space-y-6 text-lg text-gray-600 dark:text-gray-300">
             <p>
-              Welcome to Portfolio Creator, your ultimate solution for crafting stunning, professional portfolios that showcase your skills and achievements. Whether you're a designer, developer, or creative professional, we help you stand out with customizable templates, vibrant color schemes, and user-friendly tools.
+              Welcome to Website Creator, your all-in-one platform for building professional websites of any kind. Whether you’re launching a portfolio, an online store, a blog, or a corporate site, our tools empower you to create with ease and style.
             </p>
             <p>
-              Our platform is designed to make portfolio creation effortless, allowing you to focus on what matters most - your work. With responsive designs that look great on any device and intuitive editors that require no coding knowledge, you can have a professional portfolio ready in minutes.
+              Our platform offers a drag-and-drop editor, customizable templates, and seamless integrations to bring your vision to life. No coding skills? No problem. Our intuitive interface ensures anyone can design a website that looks great on all devices.
             </p>
             <p>
-              What sets us apart is our attention to detail and commitment to quality. We provide not just templates, but complete design systems that ensure your portfolio looks cohesive and professional across all sections.
+              We’re committed to versatility and quality, providing templates and features tailored to diverse industries. From SEO tools to e-commerce functionality, Website Creator has everything you need to succeed online.
             </p>
           </div>
           
@@ -35,10 +34,10 @@ const Intro = () => {
             className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4"
           >
             {[
-              { number: '100+', label: 'Color Schemes' },
+              { number: '200+', label: 'Templates' },
               { number: '24/7', label: 'Support' },
-              { number: '1K+', label: 'Happy Users' },
-              { number: '99%', label: 'Satisfaction' }
+              { number: '10K+', label: 'Happy Users' },
+              { number: '98%', label: 'Satisfaction' }
             ].map((item, index) => (
               <div key={index} className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl">
                 <h3 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">{item.number}</h3>

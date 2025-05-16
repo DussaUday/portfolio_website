@@ -37,8 +37,8 @@ const Header = ({ darkMode, toggleDarkMode }) => {
             href="#"
             className="text-2xl font-bold flex items-center"
           >
-            <span className={`mr-2 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>Portfolio</span>
-            <span className={`px-2 py-1 rounded-lg text-sm ${darkMode ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-800'}`}>Creator</span>
+            <span className={`mr-2 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>Dev</span>
+            <span className={`px-2 py-1 rounded-lg text-sm ${darkMode ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-800'}`}>Craft</span>
           </motion.a>
           
           {/* Desktop Navigation */}

@@ -1,4 +1,3 @@
-// src/components/Contact.jsx
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
@@ -48,16 +47,15 @@ const Contact = () => {
           viewport={{ once: true }}
           className="text-4xl font-bold mb-12 text-center text-purple-600 dark:text-purple-400"
         >
-          📬 Get In Touch
+          📬 Connect With Us
         </motion.h2>
         
         <div className="max-w-2xl mx-auto">
-          <motion.form
+          <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
             viewport={{ once: true }}
-            onSubmit={handleSubmit}
             className="space-y-6 bg-white dark:bg-gray-700 p-8 rounded-xl shadow-lg"
           >
             <div>
@@ -104,12 +102,12 @@ const Contact = () => {
                 rows="5"
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-all"
                 required
-                placeholder="Hello, I'd like to talk about..."
+                placeholder="Tell us about your website project..."
               ></textarea>
             </div>
             
             <motion.button
-              type="submit"
+              onClick={handleSubmit}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               disabled={isSubmitting}
@@ -137,7 +135,7 @@ const Contact = () => {
                 {status}
               </motion.div>
             )}
-          </motion.form>
+          </motion.div>
           
           <motion.div 
             initial={{ opacity: 0 }}

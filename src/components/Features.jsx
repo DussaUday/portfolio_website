@@ -1,56 +1,55 @@
-// src/components/Features.jsx
 import { motion } from 'framer-motion';
 
 const features = [
   {
+    title: "Drag-and-Drop Editor",
+    description: "Build websites effortlessly with our intuitive drag-and-drop interface, perfect for beginners and pros alike.",
+    icon: "🖱️"
+  },
+  {
+    title: "Customizable colourfull Templates",
+    description: "Choose from hundreds of templates colours for portfolios, e-commerce, blogs, and more, all fully customizable.",
+    icon: "🎨"
+  },
+  {
     title: "Responsive Design",
-    description: "Fully responsive layout using Tailwind CSS. Optimized for desktops, tablets, and mobile devices.",
+    description: "Create websites that look stunning on any device, with automatic optimization for desktops, tablets, and mobiles.",
     icon: "📱"
   },
   {
-    title: "Hero Section",
-    description: "Eye-catching introduction with name, title, and bio. Optionally includes a profile image or animated background.",
-    icon: "🌟"
+    title: "E-Commerce Integration",
+    description: "Set up online stores with payment gateways, product pages, and inventory management in minutes.",
+    icon: "🛒"
   },
   {
-    title: "About Me",
-    description: "Personal summary highlighting background, skills, and passion. Includes downloadable resume button.",
-    icon: "👤"
+    title: "SEO Tools",
+    description: "Boost your site’s visibility with built-in SEO tools, meta tags, and analytics integration.",
+    icon: "🔍"
   },
   {
-    title: "Skills Showcase",
-    description: "Displays technical and soft skills as icons, progress bars, or categorized lists.",
-    icon: "💡"
+    title: "Blogging Platform",
+    description: "Create and manage blogs with rich text editors, categories, and social sharing features.",
+    icon: "📝"
   },
   {
-    title: "Projects Portfolio",
-    description: "Grid of featured projects with titles, descriptions, tech stack, and links to live previews and code.",
-    icon: "🖥️"
-  },
-  {
-    title: "Contact Form",
-    description: "Functional form powered by EmailJS. Sends messages directly to your email with validation and feedback.",
+    title: "Contact Forms",
+    description: "Add dynamic contact forms with validation and EmailJS integration for direct communication.",
     icon: "✉️"
   },
   {
-    title: "Navigation Bar",
-    description: "Sticky responsive navbar with smooth scrolling. Highlights current section with scroll indicators.",
-    icon: "🧭"
-  },
-  {
     title: "Dark/Light Mode",
-    description: "Toggle between themes with preference saved in localStorage for consistent user experience.",
+    description: "Offer users a choice of themes, with preferences saved for a personalized experience.",
     icon: "🌓"
   },
   {
-    title: "Animations",
-    description: "Scroll-triggered animations using Framer Motion. Hover effects and smooth transitions throughout.",
+    title: "Animations & Effects",
+    description: "Enhance your site with scroll-triggered animations and hover effects using Framer Motion.",
     icon: "🎬"
   },
   {
-    title: "SEO Optimized",
-    description: "Proper HTML structure and meta tags for search visibility. Optimized images and lazy loading.",
-    icon: "🔍"
+    title: "Third-Party Integrations",
+    description: "Connect with tools like Google Analytics, Mailchimp, and social media platforms seamlessly.",
+    icon: "🔗"
   }
 ];
 
@@ -65,7 +64,7 @@ const Features = () => {
           viewport={{ once: true }}
           className="text-4xl font-bold mb-12 text-center text-blue-600 dark:text-blue-400"
         >
-          🔥 Powerful Features
+          🚀 Versatile Features
         </motion.h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

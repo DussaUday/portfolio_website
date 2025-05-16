@@ -1,4 +1,3 @@
-// src/components/Hero.jsx
 import { motion } from 'framer-motion';
 
 const Hero = () => {
@@ -13,10 +12,13 @@ const Hero = () => {
             className="md:w-1/2 mb-10 md:mb-0"
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-800 dark:text-white">
-              Create Your <span className="text-blue-600 dark:text-blue-400">Stunning</span> Portfolio
+              Build Any <span className="text-blue-600 dark:text-blue-400">Website</span> with Ease
             </h1>
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8">
-              Showcase your work with beautiful, responsive designs that impress clients and employers. Our tools make it easy to create a professional portfolio in minutes.
+              Create stunning websites for any purpose—portfolios, e-commerce, blogs, or business sites. Our intuitive tools and customizable templates make professional web design accessible to everyone.
+            </p>
+            <p className="text-lg md:text-xl font-semibold text-blue-900 dark:text-red-500 mb-8 text-center animate-pulse">
+              🎉 Launch your professional portfolio today — starting at only ₹799/- 🎉
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <motion.a
@@ -25,7 +27,7 @@ const Hero = () => {
                 href="#features"
                 className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-center transition-all shadow-lg"
               >
-                Explore Features
+                Discover Features
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.05 }}
@@ -33,7 +35,7 @@ const Hero = () => {
                 href="#contact"
                 className="px-8 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg font-medium text-center transition-all"
               >
-                Get Started
+                Start Building
               </motion.a>
             </div>
           </motion.div>
@@ -56,7 +58,7 @@ const Hero = () => {
                 </div>
                 <div className="p-4">
                   <div className="h-64 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center">
-                    <span className="text-white text-xl font-bold">Portfolio Preview</span>
+                    <span className="text-white text-xl font-bold">Website Preview</span>
                   </div>
                 </div>
               </div>
