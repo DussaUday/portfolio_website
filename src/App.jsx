@@ -7,6 +7,7 @@ import Features from './components/Features';
 import ColorCombinations from './components/ColorCombinations';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import Templates from './components/Templates';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -43,6 +44,7 @@ function App() {
           <Intro />
           <Features />
           <ColorCombinations />
+          <Templates />
           <Contact />
         </AnimatePresence>
       </main>
