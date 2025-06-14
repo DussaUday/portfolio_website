@@ -9,33 +9,38 @@
       }
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/dist/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "/service-worker.js",
-      "dest": "/dist/service-worker.js",
-      "headers": {
-        "Cache-Control": "no-cache"
-      }
-    },
-    {
-      "src": "/manifest.webmanifest",
-      "dest": "/dist/manifest.webmanifest",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
-    }
-  ],
   "rewrites": [
+    {
+      "source": "/service-worker.js",
+      "destination": "/dist/service-worker.js"
+    },
+    {
+      "source": "/manifest.webmanifest",
+      "destination": "/dist/manifest.webmanifest"
+    },
     {
       "source": "/(.*)",
       "destination": "/dist/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/service-worker.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
     }
   ]
 }
