@@ -42,7 +42,6 @@ function App() {
 
       <main className="flex-grow pt-16">
         <AnimatePresence mode="wait">
-          <InstallPrompt />
           <Hero />
           <Intro />
           <Features />
@@ -53,6 +52,7 @@ function App() {
       </main>
 
       <Footer />
+      <InstallPrompt />
     </div>
   );
 }
