@@ -38,6 +38,7 @@ function App() {
 
   return (
     <div className={`min-h-screen flex flex-col ${darkMode ? 'dark' : ''}`}>
+      <InstallPrompt />
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
       <main className="flex-grow pt-16">
@@ -52,7 +53,7 @@ function App() {
       </main>
 
       <Footer />
-      <InstallPrompt />
+      
     </div>
   );
 }
