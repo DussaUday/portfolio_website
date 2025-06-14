@@ -4,11 +4,7 @@
 @tailwind typography;
 @tailwind forms;
 @tailwind aspect-ratio;
-@tailwind line-clamp;
-@tailwind animations;
-@tailwind gradients;
-@tailwind filters;
-
+@tailwind daisyui;
 @layer components {
   .animate-blob {
     animation: blob 7s infinite;

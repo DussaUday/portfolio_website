@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
@@ -8,6 +9,7 @@ import ColorCombinations from './components/ColorCombinations';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Templates from './components/Templates';
+import InstallPrompt from './components/InstallPrompt';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -37,9 +39,10 @@ function App() {
   return (
     <div className={`min-h-screen flex flex-col ${darkMode ? 'dark' : ''}`}>
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      
+
       <main className="flex-grow pt-16">
         <AnimatePresence mode="wait">
+          <InstallPrompt />
           <Hero />
           <Intro />
           <Features />
@@ -48,7 +51,7 @@ function App() {
           <Contact />
         </AnimatePresence>
       </main>
-      
+
       <Footer />
     </div>
   );

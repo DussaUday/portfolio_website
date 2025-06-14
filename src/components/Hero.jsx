@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-
+import React from 'react';
 const Hero = () => {
   return (
     <section id="hero" className="pt-32 pb-20 md:pt-40 md:pb-28 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
