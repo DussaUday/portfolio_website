@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import React from 'react';
+
 const Header = ({ darkMode, toggleDarkMode }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -41,7 +42,6 @@ const Header = ({ darkMode, toggleDarkMode }) => {
             href="#"
             className="flex items-center"
           >
-            {/* Logo with Tailwind CSS and Enhanced Animations */}
             <motion.div
               className={`flex justify-center items-center w-10 h-10 rounded-full bg-gradient-to-r ${
                 darkMode ? 'from-blue-600 to-indigo-800' : 'from-cyan-400 to-blue-700'
@@ -96,7 +96,6 @@ const Header = ({ darkMode, toggleDarkMode }) => {
                 &gt;
               </motion.span>
             </motion.div>
-            {/* Dev Craft Name */}
             <span className="ml-2 text-xl font-bold">
               <span className={`mr-1 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>Dev</span>
               <span
@@ -109,7 +108,6 @@ const Header = ({ darkMode, toggleDarkMode }) => {
             </span>
           </motion.a>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:block">
             <ul className="flex space-x-8">
               {navItems.map((item, index) => (
@@ -160,7 +158,6 @@ const Header = ({ darkMode, toggleDarkMode }) => {
             </ul>
           </nav>
 
-          {/* Mobile Navigation */}
           <div className="md:hidden flex items-center">
             <button
               onClick={toggleDarkMode}
@@ -213,7 +210,6 @@ const Header = ({ darkMode, toggleDarkMode }) => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
@@ -221,7 +217,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className={`md:hidden overflow-hidden ${
+              className={`md:hidden overflow-hidden w-full max-w-md mx-auto ${
                 darkMode ? 'bg-gray-800' : 'bg-gray-50'
               } rounded-lg mt-2 shadow-lg`}
             >
