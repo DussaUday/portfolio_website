@@ -15,15 +15,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { name: 'About', href: '#intro' },
-    { name: 'Features', href: '#features' },
-    { name: 'Colors', href: '#colors' },
-    { name: 'Templates', href: '#templates' },
-    { name: 'Contact', href: '#contact' },
-    { name: 'Login', href: '#login' },
-    
-  ];
+  const navItems = [];
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -76,8 +68,9 @@ const Header = ({ darkMode, toggleDarkMode }) => {
                 transition={{ duration: 0.5, delay: 0.2, type: 'spring', stiffness: 200 }}
                 className="text-xs"
               >
-                &lt;
+                <Header />
               </motion.span>
+              
               <motion.img
                 src="https://cdn-icons-png.flaticon.com/512/84/84380.png"
                 alt="Pencil Icon"
@@ -95,7 +88,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
                 transition={{ duration: 0.5, delay: 0.3, type: 'spring', stiffness: 200 }}
                 className="text-xs"
               >
-                &gt;
+                
               </motion.span>
             </motion.div>
             <span className="ml-2 text-xl font-bold">

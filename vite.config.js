@@ -1,10 +1,16 @@
+// vite.config.js
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import React from 'react';
 
 export default defineConfig({
   plugins: [react()],
   server: {
-    logLevel: 'info',
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'https://dev-server-tvbl.onrender.com/',
+        changeOrigin: true,
+      },
+    },
   },
 });

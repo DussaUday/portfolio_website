@@ -1,101 +1,83 @@
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handler = (e) => {
+    // Check if the user has already dismissed the prompt
+    const isDismissed = localStorage.getItem('installPromptDismissed');
+    if (isDismissed) return;
+
+    // Listen for the beforeinstallprompt event
+    const handleBeforeInstallPrompt = (e) => {
+      // Prevent the default browser prompt
       e.preventDefault();
+      // Store the event for later use
       setDeferredPrompt(e);
+      // Show the custom prompt
       setIsVisible(true);
     };
-    
-    window.addEventListener('beforeinstallprompt', handler);
 
-    // Check if app is already installed
-    window.addEventListener('appinstalled', () => {
-      setIsVisible(false);
-    });
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
+    // Cleanup event listener
     return () => {
-      window.removeEventListener('beforeinstallprompt', handler);
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
   }, []);
 
   const handleInstallClick = async () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log(`User response: ${outcome}`);
-      if (outcome === 'accepted') {
-        setIsVisible(false);
-      }
+    if (!deferredPrompt) return;
+
+    // Show the browser's install prompt
+    await deferredPrompt.prompt();
+    // Wait for the user's response
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+    } else {
+      console.log('User dismissed the install prompt');
     }
+    // Clear the prompt
+    setDeferredPrompt(null);
+    setIsVisible(false);
   };
 
-  const handleDismiss = () => {
-    setIsVisible(false);
-    // Optionally, you can set a flag in localStorage to prevent showing again
+  const handleDismissClick = () => {
+    // Store dismissal in localStorage to prevent showing the prompt again
     localStorage.setItem('installPromptDismissed', 'true');
+    setIsVisible(false);
   };
+
+  if (!isVisible) return null;
 
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }}
-          transition={{ type: 'spring', damping: 25 }}
-          className="fixed bottom-4 right-4 z-50"
-        >
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-4 max-w-xs">
-            <div className="flex items-start">
-              <div className="flex-shrink-0 pt-0.5">
-                <svg
-                  className="w-6 h-6 text-blue-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                  Install App
-                </h3>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  Add this app to your home screen for quick access and better experience.
-                </p>
-                <div className="mt-4 flex space-x-3">
-                  <button
-                    onClick={handleInstallClick}
-                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    Install
-                  </button>
-                  <button
-                    onClick={handleDismiss}
-                    className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    Dismiss
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white dark:bg-dark p-6 rounded-xl shadow-2xl max-w-sm w-full mx-4 animate-slide-up">
+        <h2 className="text-2xl font-bold text-dark dark:text-secondary mb-4">
+          Install Our App
+        </h2>
+        <p className="text-dark/80 dark:text-secondary/80 mb-6">
+          Add our app to your home screen for a better experience. <br />Click the
+          install button below to get started.
+        </p>
+        <div className="flex justify-end space-x-4">
+          <button
+            onClick={handleDismissClick}
+            className="px-4 py-2 bg-gray-300 dark:bg-gray-700 text-dark dark:text-secondary rounded-lg hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors"
+          >
+            Dismiss
+          </button>
+          <button
+            onClick={handleInstallClick}
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-highlight transition-colors"
+          >
+            Install
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

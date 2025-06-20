@@ -1,0 +1,128 @@
+/* Copy your existing CSS from the original project */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.chatbox {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+}
+
+.chatbox__support {
+  display: flex;
+  flex-direction: column;
+  background: #f9f9f9;
+  width: 300px;
+  height: 400px;
+  z-index: -123456;
+  opacity: 0;
+  transition: all .5s ease-in-out;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.chatbox--active {
+  transform: translateY(-40px);
+  z-index: 123456;
+  opacity: 1;
+}
+
+.chatbox__button {
+  text-align: right;
+}
+
+.chatbox__button button {
+  padding: 10px;
+  background: white;
+  border: none;
+  outline: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chatbox__header {
+  background: linear-gradient(45deg, #4A90E2, #2E3A59);
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  border-radius: 10px 10px 0 0;
+}
+
+.chatbox__image--header {
+  margin-right: 10px;
+}
+
+.chatbox__content--header {
+  flex-grow: 1;
+}
+
+.chatbox__heading--header {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.chatbox__description--header {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.chatbox__messages {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.messages__item {
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  border-radius: 15px;
+  max-width: 80%;
+}
+
+.messages__item--visitor {
+  background: #e6e6e6;
+  margin-right: auto;
+  border-bottom-left-radius: 0;
+}
+
+.messages__item--operator {
+  background: #4A90E2;
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 0;
+}
+
+.chatbox__footer {
+  display: flex;
+  padding: 15px;
+  border-top: 1px solid #eee;
+}
+
+.chatbox__footer input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 20px;
+  outline: none;
+}
+
+.chatbox__send--footer {
+  margin-left: 10px;
+  padding: 10px 15px;
+  background: #4A90E2;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.chatbox__send--footer:hover {
+  background: #2E3A59;
+}
