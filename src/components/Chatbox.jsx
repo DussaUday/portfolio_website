@@ -11,7 +11,7 @@ const Chatbox = () => {
 
   useEffect(() => {
     // Connect to Socket.io server
-    socketRef.current = io('https://dev-server-tvbl.onrender.com/');
+    socketRef.current = io('https://dev-server-tvbl.onrender.com');
 
     return () => {
       socketRef.current.disconnect();
@@ -55,7 +55,7 @@ const Chatbox = () => {
     setIsTyping(true);
 
     try {
-      const response = await fetch('https://dev-server-tvbl.onrender.com/api/chat/predict', {
+      const response = await fetch('/api/chat/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: inputValue })
