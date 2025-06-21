@@ -24,12 +24,12 @@ function Signup() {
       try {
         if (!showOtp) {
           // Request OTP
-          await axios.post('/api/auth/signup/initiate', { email: values.email });
+          await axios.post('https://dev-server-tvbl.onrender.com/api/auth/signup/initiate', { email: values.email });
           setTempEmail(values.email);
           setShowOtp(true);
         } else {
           // Verify OTP and complete signup
-          const res = await axios.post('/api/auth/signup/verify', {
+          const res = await axios.post('https://dev-server-tvbl.onrender.com/api/auth/signup/verify', {
             email: tempEmail,
             otp: values.otp,
             password: values.password,

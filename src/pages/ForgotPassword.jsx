@@ -44,12 +44,12 @@ function ForgotPassword() {
       try {
         if (step === 1) {
           // Send OTP
-          await axios.post('/api/auth/password-reset/initiate', { email: values.email });
+          await axios.post('https://dev-server-tvbl.onrender.com/api/auth/password-reset/initiate', { email: values.email });
           setEmailSent(values.email);
           setStep(2);
         } else if (step === 2) {
           // Verify OTP and reset password
-          await axios.post('/api/auth/password-reset/verify', {
+          await axios.post('https://dev-server-tvbl.onrender.com/api/auth/password-reset/verify', {
             email: emailSent,
             otp: values.otp,
             newPassword: values.newPassword
@@ -69,7 +69,7 @@ function ForgotPassword() {
 
   const resendOTP = async () => {
     try {
-      await axios.post('/api/auth/password-reset/initiate', { email: emailSent });
+      await axios.post('https://dev-server-tvbl.onrender.com/api/auth/password-reset/initiate', { email: emailSent });
       alert('OTP resent successfully');
     } catch (error) {
       alert(error.response?.data?.error || error.message);

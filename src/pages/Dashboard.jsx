@@ -56,7 +56,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchPortfolios = async () => {
       try {
-        const res = await axios.get('/api/portfolio', {
+        const res = await axios.get('https://dev-server-tvbl.onrender.com/api/portfolio', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         setPortfolios(res.data);
@@ -71,7 +71,7 @@ function Dashboard() {
 
   const handleDelete = async (portfolioId, repoUrl) => {
     try {
-      await axios.delete(`/api/portfolio/${portfolioId}`, {
+      await axios.delete(`https://dev-server-tvbl.onrender.com/api/portfolio/${portfolioId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         data: { repoUrl },
       });

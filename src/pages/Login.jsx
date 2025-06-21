@@ -135,7 +135,7 @@ function Login() {
     onSubmit: async (values) => {
       setIsSubmitting(true);
       try {
-        const res = await axios.post('/api/auth/login', values);
+        const res = await axios.post('https://dev-server-tvbl.onrender.com/api/auth/login', values);
         localStorage.setItem('token', res.data.token);
         navigate('/dashboard');
       } catch (error) {

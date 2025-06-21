@@ -569,7 +569,7 @@ function TemplateEditor() {
 
       let res;
       if (portfolioId) {
-        res = await axios.put(`/api/portfolio/${portfolioId}`, portfolioData, {
+        res = await axios.put(`https://dev-server-tvbl.onrender.com/api/portfolio/${portfolioId}`, portfolioData, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -577,7 +577,7 @@ function TemplateEditor() {
         });
         alert(`Portfolio updated and redeployed at: ${res.data.githubPagesUrl}`);
       } else {
-        res = await axios.post('/api/portfolio/create', portfolioData, {
+        res = await axios.post('https://dev-server-tvbl.onrender.com/api/portfolio/create', portfolioData, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
