@@ -24,6 +24,7 @@ const templateThumbnails = {
   template18: 'https://res.cloudinary.com/drc8bufjn/image/upload/v1750436018/message_attachments/h5zojjk7jen8vpesfays.png',
   template19: 'https://res.cloudinary.com/drc8bufjn/image/upload/v1750436094/message_attachments/ppb8hxr7qfjh8nw7dwzs.png',
   template20: 'https://res.cloudinary.com/drc8bufjn/image/upload/v1750436193/message_attachments/vtgrkunmththrvo33hyp.png',
+  template21: '',
 };
 
 function Dashboard() {
@@ -49,6 +50,7 @@ function Dashboard() {
     { id: 'template18', name: 'Minimalist Serenity' },
     { id: 'template19', name: 'Dark Luxe' },
     { id: 'template20', name: 'Professional Dark Theme' },
+    { id: 'template21', name: 'Glassmorphism Theme' },
   ]);
   const [isLoading, setIsLoading] = useState(true);
   const [portfolioToDelete, setPortfolioToDelete] = useState(null);

@@ -151,9 +151,9 @@ export function Template13({ components }) {
             {name}
           </h1>
           <button
-            className="md:hidden text-white focus:outline-none"
+            className="md:hidden text-white focus:outline-none hover:bg-purple-700 p-2 rounded-full transition-colors duration-300"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -170,7 +170,10 @@ export function Template13({ components }) {
                 key={link.href}
                 href={link.href}
                 className="text-lg font-medium hover:text-purple-300 transition-colors"
-                onClick={() => handleNavClick(link.href)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(link.href);
+                }}
               >
                 {link.label}
               </a>
@@ -178,14 +181,19 @@ export function Template13({ components }) {
           </nav>
         </div>
         <div
-          className={`md:hidden gradient-bg flex-col space-y-2 px-4 py-4 absolute top-full left-0 right-0 z-40 ${isMenuOpen ? 'flex' : 'hidden'}`}
+          className={`md:hidden gradient-bg flex-col space-y-2 px-4 py-4 absolute top-full left-0 right-0 z-40 transition-all duration-500 ease-in-out ${
+            isMenuOpen ? 'flex' : 'hidden'
+          }`}
         >
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               className="text-lg font-medium hover:text-purple-300 transition-colors py-2"
-              onClick={() => handleNavClick(link.href)}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick(link.href);
+              }}
             >
               {link.label}
             </a>
@@ -488,7 +496,7 @@ export function Template13({ components }) {
 
       <footer className="gradient-bg py-6">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-white">
+          <p className="text-white"> <a href='https://tinyurl.com/DevCraftwebsite'>Made by DevCraftz  </a>
             © {new Date().getFullYear()} {name}. All rights reserved.
           </p>
         </div>
@@ -496,4 +504,5 @@ export function Template13({ components }) {
     </div>
   );
 }
+
 export default Template13;

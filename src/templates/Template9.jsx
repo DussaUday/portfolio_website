@@ -307,7 +307,7 @@ export function Template9({ components }) {
 
       <footer className="bg-gradient-to-b from-[#8A9A5B] to-[#FAD4D4] text-[#2F2F2F] py-4">
         <div className="container mx-auto px-4 text-center">
-          <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
+          <p>© <a href='https://tinyurl.com/DevCraftwebsite'>Made by DevCraftz  </a> {new Date().getFullYear()} {name}. All rights reserved.</p>
         </div>
       </footer>
     </div>

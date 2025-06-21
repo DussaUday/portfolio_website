@@ -23,7 +23,7 @@ import { Template17 } from '../templates/Template17';
 import { Template18 } from '../templates/Template18';
 import { Template19 } from '../templates/Template19';
 import { Template20 } from '../templates/Template20';
-
+import { Template21 } from '../templates/Template21';
 function TemplateEditor() {
   const { templateId } = useParams();
   const location = useLocation();
@@ -56,7 +56,7 @@ function TemplateEditor() {
   const CLOUDINARY_CLOUD_NAME = 'drc8bufjn';
   const CLOUDINARY_UPLOAD_PRESET = 'Portfolio';
 
-  const SKILLS_LIST = [
+ const SKILLS_LIST = [
     { name: '🌟 JavaScript', icon: 'fa-brands fa-js' },
     { name: '⚛ React', icon: 'fa-brands fa-react' },
     { name: '🟢 Node.js', icon: 'fa-brands fa-node-js' },
@@ -238,7 +238,58 @@ function TemplateEditor() {
     { name: '🔍 Git Blame', icon: 'fa-brands fa-git-alt' },
     { name: '📊 GitHub Projects', icon: 'fa-brands fa-github' },
     { name: '🔄 GitLab CI/CD', icon: 'fa-brands fa-gitlab' },
-  ];
+    // New Additions
+    { name: '🖥 C', icon: 'fa-solid fa-code' },
+    { name: '➕ C++', icon: 'fa-solid fa-code' },
+    { name: '♯ C#', icon: 'fa-solid fa-code' },
+    { name: '💎 Ruby', icon: 'fa-solid fa-gem' },
+    { name: '🛤 Rails', icon: 'fa-solid fa-train' },
+    { name: '🐘 PHP', icon: 'fa-brands fa-php' },
+    { name: '📚 Laravel', icon: 'fa-brands fa-laravel' },
+    { name: '⚡ Symfony', icon: 'fa-solid fa-bolt' },
+    { name: '🦜 Swift', icon: 'fa-brands fa-swift' },
+    { name: '📜 Go', icon: 'fa-solid fa-code' },
+    { name: '🦀 Rust', icon: 'fa-brands fa-rust' },
+    { name: '🛠 Scala', icon: 'fa-solid fa-code' },
+    { name: '☕ Spring Boot', icon: 'fa-brands fa-java' },
+    { name: '🗄 MySQL', icon: 'fa-solid fa-database' },
+    { name: '🗃 Redis', icon: 'fa-solid fa-database' },
+    { name: '🛠 Elasticsearch', icon: 'fa-solid fa-search' },
+    { name: '📦 Next.js', icon: 'fa-brands fa-react' },
+    { name: '🖼 Nuxt.js', icon: 'fa-brands fa-vuejs' },
+    { name: '⚡ Svelte', icon: 'fa-solid fa-code' },
+    { name: '📚 Prisma', icon: 'fa-solid fa-database' },
+    { name: '🛠 Sequelize', icon: 'fa-solid fa-database' },
+    { name: '🔧 FastAPI', icon: 'fa-brands fa-python' },
+    { name: '🛸 TensorFlow', icon: 'fa-solid fa-brain' },
+    { name: '🧪 Scikit-learn', icon: 'fa-brands fa-python' },
+    { name: '📊 Pandas', icon: 'fa-solid fa-table' },
+    { name: '🔢 NumPy', icon: 'fa-solid fa-calculator' },
+    { name: '🗺 Terraform', icon: 'fa-solid fa-cogs' },
+    { name: '☁ GCP Cloud Functions', icon: 'fa-brands fa-google' },
+    { name: '☁ Azure DevOps', icon: 'fa-brands fa-microsoft' },
+    { name: '🔄 Jenkins', icon: 'fa-brands fa-jenkins' },
+    { name: '📦 Ansible', icon: 'fa-solid fa-cogs' },
+    { name: '🛠 Puppet', icon: 'fa-solid fa-cog' },
+    { name: '🛠 Chef', icon: 'fa-solid fa-cog' },
+    { name: '📜 Postman', icon: 'fa-solid fa-envelope-open' },
+    { name: '🔍 Splunk', icon: 'fa-solid fa-search' },
+    { name: '📈 Datadog', icon: 'fa-solid fa-chart-line' },
+    { name: '🛡 OWASP', icon: 'fa-solid fa-shield-alt' },
+    { name: '🔐 Keycloak', icon: 'fa-solid fa-key' },
+    { name: '📡 RabbitMQ', icon: 'fa-solid fa-server' },
+    { name: '📨 Kafka', icon: 'fa-solid fa-stream' },
+    { name: '🛠 Nginx', icon: 'fa-solid fa-server' },
+    { name: '🖥 Apache', icon: 'fa-solid fa-server' },
+    { name: '📊 Tableau', icon: 'fa-solid fa-chart-bar' },
+    { name: '📈 Power BI', icon: 'fa-brands fa-microsoft' },
+    { name: '🧪 Playwright', icon: 'fa-solid fa-vial' },
+    { name: '🛠 Selenium', icon: 'fa-solid fa-robot' },
+    { name: '📱 Xamarin', icon: 'fa-brands fa-microsoft' },
+    { name: '🖌 Sketch', icon: 'fa-solid fa-paint-brush' },
+    { name: '📊 Snowflake', icon: 'fa-solid fa-snowflake' },
+    { name: '🗄 Cassandra', icon: 'fa-solid fa-database' },
+];
 
   const templateComponents = {
     template1: Template1,
@@ -261,6 +312,7 @@ function TemplateEditor() {
     template18: Template18,
     template19: Template19,
     template20: Template20,
+    template21: Template21,
   };
 
   const SelectedTemplate = templateComponents[templateId] || Template2;

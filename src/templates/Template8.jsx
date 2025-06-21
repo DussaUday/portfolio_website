@@ -314,7 +314,7 @@ export function Template8({ components }) {
 
       <footer className="bg-gradient-to-r from-[#7B2CBF] to-[#00F5D4] text-[#0A0A0A] py-4">
         <div className="container mx-auto px-4 text-center">
-          <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
+          <p>© <a href='https://tinyurl.com/DevCraftwebsite'>Made by DevCraftz  </a> {new Date().getFullYear()} {name}. All rights reserved.</p>
         </div>
       </footer>
     </div>

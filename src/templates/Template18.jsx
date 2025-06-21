@@ -317,7 +317,7 @@ export function Template18({ components }) {
 
       <footer className="bg-[#c70D6FF] text-[#2A2A2A] py-4 shadow-[0_4px_0_#FFCAD4]">
         <div className="container mx-auto px-4 text-center">
-          <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
+          <p>© <a href='https://tinyurl.com/DevCraftwebsite'>Made by DevCraftz  </a> {new Date().getFullYear()} {name}. All rights reserved.</p>
         </div>
       </footer>
     </div>

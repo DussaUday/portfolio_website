@@ -83,7 +83,8 @@ export function Template14({ components }) {
     };
   }, [mousePosition]);
 
-  const handleNavClick = (href) => {
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
     const targetElement = document.querySelector(href);
     if (targetElement) {
       const headerOffset = document.querySelector('header')?.offsetHeight || 0;
@@ -199,7 +200,7 @@ export function Template14({ components }) {
                 key={link.href}
                 href={link.href}
                 className="text-lg font-medium hover:text-indigo-200 transition-colors duration-300 relative group"
-                onClick={() => handleNavClick(link.href)}
+                onClick={(e) => handleNavClick(e, link.href)}
               >
                 {link.label}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-200 transition-all duration-300 group-hover:w-full"></span>
@@ -215,7 +216,7 @@ export function Template14({ components }) {
               key={link.href}
               href={link.href}
               className="text-lg font-medium hover:text-indigo-200 transition-colors duration-300 py-2 border-b border-indigo-800 last:border-b-0"
-              onClick={() => handleNavClick(link.href)}
+              onClick={(e) => handleNavClick(e, link.href)}
             >
               {link.label}
             </a>
@@ -522,11 +523,10 @@ export function Template14({ components }) {
       <footer className="gradient-bg py-6 backdrop-blur-sm bg-opacity-90">
         <div className="container mx-auto px-4 text-center">
           <p className="text-white">
-            © {new Date().getFullYear()} {name}. All rights reserved.
+            © <a href='https://tinyurl.com/DevCraftwebsite'>Made by DevCraftz  </a> {new Date().getFullYear()} {name}. All rights reserved.
           </p>
         </div>
       </footer>
     </div>
   );
 }
-export default Template14;

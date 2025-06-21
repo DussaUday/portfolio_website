@@ -292,7 +292,7 @@ export function Template4({ components }) {
 
       <footer className="bg-[#FF6F61] text-[#FFF9F0] py-4">
         <div className="container mx-auto px-4 text-center">
-          <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
+          <p>© <a href='https://tinyurl.com/DevCraftwebsite'>Made by DevCraftz  </a> {new Date().getFullYear()} {name}. All rights reserved.</p>
         </div>
       </footer>
     </div>

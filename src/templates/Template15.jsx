@@ -109,12 +109,20 @@ export function Template15({ components }) {
           <div className="container mx-auto px-4 flex justify-between items-center">
             <h1 className="text-3xl font-bold tracking-tight glitch-effect">{name}</h1>
             <button
-              className="sm:hidden text-cyan-400 focus:outline-none hover:text-white p-2 rounded"
+              id="menu-toggle"
+              className="sm:hidden text-cyan-400 focus:outline-none hover:text-white p-2 rounded transition-colors duration-300"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg 
+                className="w-6 h-6" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
+                  id="menu-icon"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
@@ -127,7 +135,7 @@ export function Template15({ components }) {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="text-lg font-medium hover:text-white hover:glitch-effect"
+                  className="text-lg font-medium hover:text-white hover:glitch-effect transition-all duration-300"
                   onClick={() => handleNavClick(link.href)}
                 >
                   {link.label}
@@ -136,13 +144,14 @@ export function Template15({ components }) {
             </nav>
           </div>
           <div
-            className={`sm:hidden bg-gray-800 text-cyan-400 flex-col space-y-2 px-4 py-4 absolute top-full left-0 right-0 z-40 border-b-2 border-cyan-400 ${isMenuOpen ? 'flex' : 'hidden'}`}
+            id="mobile-menu"
+            className={`sm:hidden bg-gray-800 text-cyan-400 flex-col space-y-2 px-4 py-4 absolute top-full left-0 right-0 z-40 border-b-2 border-cyan-400 ${isMenuOpen ? 'flex' : 'hidden'} transition-all duration-300`}
           >
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-lg font-medium hover:text-white hover:glitch-effect py-2"
+                className="text-lg font-medium hover:text-white hover:glitch-effect py-2 transition-colors duration-300"
                 onClick={() => handleNavClick(link.href)}
               >
                 {link.label}
@@ -344,7 +353,7 @@ export function Template15({ components }) {
 
         <footer className="bg-gray-800 text-cyan-400 py-4 border-t-2 border-cyan-400">
           <div className="container mx-auto px-4 text-center">
-            <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
+            <p>© <a href='https://tinyurl.com/DevCraftwebsite'>Made by DevCraftz  </a> {new Date().getFullYear()} {name}. All rights reserved.</p>
           </div>
         </footer>
       </div>
