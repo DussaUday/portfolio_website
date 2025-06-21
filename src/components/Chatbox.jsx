@@ -71,7 +71,8 @@ const Chatbox = () => {
         setMessages(prev => [...prev, botMessage]);
         setIsTyping(false);
       }, 800); // Simulate typing delay
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error:', error);
       const errorMessage = { 
         name: 'Irah', 
