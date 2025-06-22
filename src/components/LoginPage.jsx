@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -132,4 +132,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { Template1 } from '../templates/Template1';
 import { Template2 } from '../templates/Template2';
 import { Template3 } from '../templates/Template3';
@@ -24,10 +24,14 @@ import { Template18 } from '../templates/Template18';
 import { Template19 } from '../templates/Template19';
 import { Template20 } from '../templates/Template20';
 import { Template21 } from '../templates/Template21';
+
 function TemplateEditor() {
   const { templateId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const controls = useAnimation();
+  const buttonControls = useAnimation();
+  
   const [portfolioId, setPortfolioId] = useState(null);
   const [repoUrl, setRepoUrl] = useState(null);
   const [components, setComponents] = useState({
@@ -36,7 +40,7 @@ function TemplateEditor() {
     email: '',
     github: '',
     linkedin: '',
-    whatsapp: '', // Stores phone number
+    whatsapp: '',
     skills: [],
     projects: [],
     certificates: [],
@@ -52,11 +56,15 @@ function TemplateEditor() {
   const [previewMode, setPreviewMode] = useState(true);
   const [deployedUrl, setDeployedUrl] = useState(null);
   const [skillSearch, setSkillSearch] = useState('');
+  const [customSkill, setCustomSkill] = useState('');
+  const [showCustomSkillInput, setShowCustomSkillInput] = useState(false);
+  const [isDeploying, setIsDeploying] = useState(false);
+  const [deploySuccess, setDeploySuccess] = useState(false);
 
   const CLOUDINARY_CLOUD_NAME = 'drc8bufjn';
   const CLOUDINARY_UPLOAD_PRESET = 'Portfolio';
 
- const SKILLS_LIST = [
+  const SKILLS_LIST = [
     { name: '🌟 JavaScript', icon: 'fa-brands fa-js' },
     { name: '⚛ React', icon: 'fa-brands fa-react' },
     { name: '🟢 Node.js', icon: 'fa-brands fa-node-js' },
@@ -238,7 +246,6 @@ function TemplateEditor() {
     { name: '🔍 Git Blame', icon: 'fa-brands fa-git-alt' },
     { name: '📊 GitHub Projects', icon: 'fa-brands fa-github' },
     { name: '🔄 GitLab CI/CD', icon: 'fa-brands fa-gitlab' },
-    // New Additions
     { name: '🖥 C', icon: 'fa-solid fa-code' },
     { name: '➕ C++', icon: 'fa-solid fa-code' },
     { name: '♯ C#', icon: 'fa-solid fa-code' },
@@ -289,7 +296,7 @@ function TemplateEditor() {
     { name: '🖌 Sketch', icon: 'fa-solid fa-paint-brush' },
     { name: '📊 Snowflake', icon: 'fa-solid fa-snowflake' },
     { name: '🗄 Cassandra', icon: 'fa-solid fa-database' },
-];
+  ];
 
   const templateComponents = {
     template1: Template1,
@@ -451,6 +458,14 @@ function TemplateEditor() {
     }));
   };
 
+  const addCustomSkill = () => {
+    if (customSkill.trim() && !components.skills.includes(customSkill)) {
+      toggleSkill(customSkill);
+      setCustomSkill('');
+      setShowCustomSkillInput(false);
+    }
+  };
+
   const copyToClipboard = () => {
     if (!deployedUrl) {
       alert('No URL to copy.');
@@ -473,7 +488,15 @@ function TemplateEditor() {
   const handleSubmit = async e => {
     e.preventDefault();
     setUploadError(null);
+    setIsDeploying(true);
+    setDeploySuccess(false);
+    
     try {
+      await buttonControls.start({
+        scale: [1, 1.05, 1],
+        transition: { duration: 0.5 }
+      });
+
       const token = localStorage.getItem('token');
       if (!token) throw new Error('Authentication required. Please log in.');
 
@@ -627,7 +650,6 @@ function TemplateEditor() {
             'Content-Type': 'application/json',
           },
         });
-        alert(`Portfolio updated and redeployed at: ${res.data.githubPagesUrl}`);
       } else {
         res = await axios.post('https://dev-server-tvbl.onrender.com/api/portfolio/create', portfolioData, {
           headers: {
@@ -637,12 +659,26 @@ function TemplateEditor() {
         });
         setPortfolioId(res.data.portfolioId);
         setRepoUrl(res.data.repoUrl);
-        alert(`Portfolio deployed at: ${res.data.githubPagesUrl}`);
       }
+      
       setDeployedUrl(res.data.githubPagesUrl);
+      setDeploySuccess(true);
+      
+      await controls.start({
+        scale: [1, 1.02, 1],
+        transition: { duration: 0.5 }
+      });
+      
     } catch (error) {
       const errorMessage = error.response?.data?.error || error.message;
       setUploadError(`Failed to ${portfolioId ? 'update' : 'create'} portfolio: ${errorMessage}`);
+      
+      await controls.start({
+        x: [0, -5, 5, -5, 5, 0],
+        transition: { duration: 0.5 }
+      });
+    } finally {
+      setIsDeploying(false);
     }
   };
 
@@ -820,14 +856,63 @@ function TemplateEditor() {
                   {components.skills.length} selected
                 </span>
               </div>
+              
+              {/* Custom Skill Input */}
+              {showCustomSkillInput && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex items-center space-x-2 mb-3"
+                >
+                  <input
+                    type="text"
+                    placeholder="Enter custom skill"
+                    value={customSkill}
+                    onChange={(e) => setCustomSkill(e.target.value)}
+                    className="flex-1 p-2 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+                  />
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    type="button"
+                    onClick={addCustomSkill}
+                    className="bg-green-600 text-white px-3 py-2 rounded-lg shadow hover:bg-green-700 transition-colors duration-200"
+                  >
+                    Add
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    type="button"
+                    onClick={() => setShowCustomSkillInput(false)}
+                    className="bg-gray-600 text-white px-3 py-2 rounded-lg shadow hover:bg-gray-700 transition-colors duration-200"
+                  >
+                    Cancel
+                  </motion.button>
+                </motion.div>
+              )}
+              
               <div className="mb-4">
-                <input
-                  type="text"
-                  placeholder="Search skills..."
-                  value={skillSearch}
-                  onChange={e => setSkillSearch(e.target.value)}
-                  className="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                />
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="text"
+                    placeholder="Search skills..."
+                    value={skillSearch}
+                    onChange={e => setSkillSearch(e.target.value)}
+                    className="flex-1 p-3 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+                  />
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    type="button"
+                    onClick={() => setShowCustomSkillInput(true)}
+                    className="bg-indigo-600 text-white p-3 rounded-lg shadow hover:bg-indigo-700 transition-colors duration-200"
+                  >
+                    <i className="fas fa-plus"></i>
+                  </motion.button>
+                </div>
+                
                 {skillSearch && (
                   <div className="mt-2 max-h-40 overflow-y-auto bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm">
                     {filteredSkills.slice(0, 5).map(skill => (
@@ -850,22 +935,31 @@ function TemplateEditor() {
                   </div>
                 )}
               </div>
+              
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-48 overflow-y-auto border border-gray-200 dark:border-gray-600 p-4 rounded-lg bg-gray-50 dark:bg-gray-700">
-                {filteredSkills.map(skill => (
-                  <motion.label
-                    key={skill.name}
-                    whileHover={{ scale: 1.02 }}
-                    className="flex items-center space-x-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded cursor-pointer transition-colors duration-200"
+                {components.skills.map(skill => (
+                  <motion.div
+                    key={skill}
+                    layout
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    className="flex items-center justify-between p-2 bg-white dark:bg-gray-600 rounded shadow-sm"
                   >
-                    <input
-                      type="checkbox"
-                      checked={components.skills.includes(skill.name)}
-                      onChange={() => toggleSkill(skill.name)}
-                      className="h-4 w-4 text-indigo-600 rounded focus:ring-indigo-500"
-                    />
-                    <i className={`${skill.icon} text-indigo-600`}></i>
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{skill.name}</span>
-                  </motion.label>
+                    <div className="flex items-center space-x-2">
+                      <i className="fas fa-check-circle text-green-500"></i>
+                      <span className="text-sm text-gray-700 dark:text-gray-300">{skill}</span>
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      type="button"
+                      onClick={() => toggleSkill(skill)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      <i className="fas fa-times"></i>
+                    </motion.button>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
@@ -1096,18 +1190,47 @@ function TemplateEditor() {
               </motion.div>
             )}
 
-            <motion.button
-              type="submit"
-              disabled={uploading}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.4 }}
-              className="w-full p-3 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-200"
+              className="pt-4"
             >
-              {uploading ? 'Saving...' : portfolioId ? 'Update & Redeploy' : 'Save & Deploy'}
-            </motion.button>
+              <motion.button
+                type="submit"
+                disabled={isDeploying}
+                animate={buttonControls}
+                className="w-full p-3 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 disabled:bg-indigo-400 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center gap-2"
+              >
+                {isDeploying ? (
+                  <>
+                    <motion.span
+                      animate={{
+                        rotate: 360,
+                        transition: { duration: 1, repeat: Infinity, ease: "linear" }
+                      }}
+                      className="inline-block"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    </motion.span>
+                    <span>Deploying...</span>
+                  </>
+                ) : deploySuccess ? (
+                  <>
+                    <svg className="w-5 h-5 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Deployed Successfully!</span>
+                  </>
+                ) : portfolioId ? (
+                  'Update & Redeploy'
+                ) : (
+                  'Save & Deploy'
+                )}
+              </motion.button>
+            </motion.div>
           </form>
         </motion.div>
 
@@ -1123,7 +1246,7 @@ function TemplateEditor() {
               <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
                 Live Preview
               </h3>
-              <div className="relative w-full h-[calc(100%-2rem)] overflow-y-auto rounded-xl shadow-inner bg-white dark:bg-gray-900 p-4 border border-gray-200 dark:bg-gray-600">
+              <div className="relative w-full h-[calc(100%-2rem)] overflow-y-auto rounded-xl shadow-inner bg-white dark:bg-gray-900 p-4 border border-gray-200 dark:border-gray-600">
                 <SelectedTemplate components={components} />
               </div>
             </motion.div>

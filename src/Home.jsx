@@ -11,7 +11,9 @@ import Footer from './components/Footer';
 import Templates from './components/Templates';
 import InstallPrompt from './components/InstallPrompt';
 import Chatbox from './components/Chatbox';
-import Login from './components/Login';
+import LoginPage from './components/LoginPage';
+import LandingPage from './components/LandingPage';
+
 function Home() {
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -23,6 +25,8 @@ function Home() {
     }
     return false;
   });
+
+  const [showLanding, setShowLanding] = useState(true);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -37,23 +41,35 @@ function Home() {
     localStorage.setItem('darkMode', darkMode);
   }, [darkMode]);
 
+  const handleLandingComplete = () => {
+    setShowLanding(false);
+  };
+
   return (
     <div className={`min-h-screen flex flex-col ${darkMode ? 'dark' : ''}`}>
-      <InstallPrompt />
-      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      <main className="flex-grow pt-16">
-        <AnimatePresence mode="wait">
-          <Hero />
-          <Intro />
-          <Features />
-          <ColorCombinations />
-          <Templates />
-          <Contact />
-          <Login />
-        </AnimatePresence>
-      </main>
-      <Footer />
-      <Chatbox />
+      <AnimatePresence>
+        {showLanding ? (
+          <LandingPage onComplete={handleLandingComplete} />
+        ) : (
+          <>
+            <InstallPrompt />
+            <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+            <main className="flex-grow pt-16">
+              <AnimatePresence mode="wait">
+                <Hero />
+                <Intro />
+                <Features />
+                <ColorCombinations />
+                <Templates />
+                <Contact />
+                <LoginPage />
+              </AnimatePresence>
+            </main>
+            <Footer />
+            <Chatbox />
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

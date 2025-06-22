@@ -12,11 +12,11 @@ const Intro = () => {
           className="max-w-4xl mx-auto text-center"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800 dark:text-white">
-            About <span className="text-blue-600 dark:text-blue-400">Dev Craft</span>
+            About <span className="text-blue-600 dark:text-blue-400">Dev Craftz</span>
           </h2>
           <div className="space-y-6 text-lg text-gray-600 dark:text-gray-300">
             <p>
-              Welcome to Dev Craft, your all-in-one platform for building professional websites of any kind. Whether you’re launching a portfolio, an online store, a blog, or a corporate site, our tools empower you to create with ease and style.
+              Welcome to Dev Craftz, your all-in-one platform for building professional websites of any kind. Whether you’re launching a portfolio, an online store, a blog, or a corporate site, our tools empower you to create with ease and style.
             </p>
             <p>
               Our platform offers a drag-and-drop editor, customizable templates, and seamless integrations to bring your vision to life. No coding skills? No problem. Our intuitive interface ensures anyone can design a website that looks great on all devices.

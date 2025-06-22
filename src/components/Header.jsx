@@ -105,7 +105,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
                   darkMode ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-800'
                 }`}
               >
-                Craft
+                Craftz
               </span>
             </span>
           </motion.a>
