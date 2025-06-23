@@ -5,19 +5,24 @@ function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+  const [isSafari, setIsSafari] = useState(false);
 
   useEffect(() => {
     // Check if the app is already installed
-    if (window.matchMedia('(display-mode: standalone)').matches || 
-        window.navigator.standalone ||
-        document.referrer.includes('android-app://')) {
-      setIsStandalone(true);
-      return;
-    }
+    const isStandaloneCheck = window.matchMedia('(display-mode: standalone)').matches || 
+                            window.navigator.standalone ||
+                            document.referrer.includes('android-app://');
+    setIsStandalone(isStandaloneCheck);
+
+    // Check for iOS
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    setIsIOS(/iphone|ipad|ipod/.test(userAgent));
+    setIsSafari(/safari/.test(userAgent) && !/chrome/.test(userAgent));
 
     // Check if prompt was previously dismissed
     const isDismissed = localStorage.getItem('installPromptDismissed');
-    if (isDismissed === 'true') return;
+    if (isDismissed === 'true' && !isIOS) return;
 
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
@@ -27,16 +32,13 @@ function InstallPrompt() {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
-    // Fallback: If the event doesn't fire within 10 seconds, show anyway
-    const timeout = setTimeout(() => {
-      if (!isStandalone && !isDismissed) {
-        setIsVisible(true);
-      }
-    }, 10000);
+    // For iOS, we need to show custom instructions
+    if (isIOS && isSafari && !isStandaloneCheck && isDismissed !== 'true') {
+      setIsVisible(true);
+    }
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-      clearTimeout(timeout);
     };
   }, []);
 
@@ -49,9 +51,15 @@ function InstallPrompt() {
       if (outcome === 'accepted') {
         localStorage.setItem('installPromptDismissed', 'true');
       }
+    } else if (isIOS) {
+      // iOS doesn't support beforeinstallprompt, show custom instructions
+      alert(
+        'To install this app:\n1. Tap the Share button\n2. Select "Add to Home Screen"\n3. Tap "Add" in the top right corner'
+      );
+      localStorage.setItem('installPromptDismissed', 'true');
     } else {
-      // Fallback for browsers that don't support beforeinstallprompt
-      alert('To install this app, look for "Add to Home Screen" in your browser\'s menu.');
+      // Fallback for other browsers
+      alert('To install this app, look for "Install" or "Add to Home Screen" in your browser\'s menu.');
     }
     setIsVisible(false);
     setDeferredPrompt(null);
@@ -118,7 +126,18 @@ function InstallPrompt() {
               </div>
               
               <p className="text-gray-600 dark:text-gray-300 mb-6">
-                Add this app to your home screen for faster access and offline capabilities.
+                {isIOS && isSafari ? (
+                  <>
+                    Add this app to your home screen for faster access:
+                    <ol className="list-decimal pl-5 mt-2 space-y-1">
+                      <li>Tap the Share button</li>
+                      <li>Select "Add to Home Screen"</li>
+                      <li>Tap "Add" in the top right corner</li>
+                    </ol>
+                  </>
+                ) : (
+                  "Add this app to your home screen for faster access and offline capabilities."
+                )}
               </p>
               
               <div className="flex space-x-3">
@@ -126,7 +145,7 @@ function InstallPrompt() {
                   onClick={handleInstallClick}
                   className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
                 >
-                  Install
+                  {isIOS && isSafari ? "Show Instructions" : "Install"}
                 </button>
                 <button
                   onClick={handleDismissClick}
