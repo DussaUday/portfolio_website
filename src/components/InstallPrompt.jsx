@@ -17,12 +17,13 @@ function InstallPrompt() {
 
     // Check for iOS
     const userAgent = window.navigator.userAgent.toLowerCase();
-    setIsIOS(/iphone|ipad|ipod/.test(userAgent));
-    setIsSafari(/safari/.test(userAgent) && !/chrome/.test(userAgent));
+    const isIOSCheck = /iphone|ipad|ipod/.test(userAgent);
+    setIsIOS(isIOSCheck);
+    setIsSafari(/safari/.test(userAgent) && !/chrome/.test(userAgent) && isIOSCheck);
 
     // Check if prompt was previously dismissed
     const isDismissed = localStorage.getItem('installPromptDismissed');
-    if (isDismissed === 'true' && !isIOS) return;
+    if (isDismissed === 'true') return;
 
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
@@ -33,8 +34,12 @@ function InstallPrompt() {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
     // For iOS, we need to show custom instructions
-    if (isIOS && isSafari && !isStandaloneCheck && isDismissed !== 'true') {
-      setIsVisible(true);
+    if (isIOSCheck && !isStandaloneCheck) {
+      // iOS doesn't support beforeinstallprompt, show custom instructions after a delay
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 3000);
+      return () => clearTimeout(timer);
     }
 
     return () => {
@@ -44,12 +49,16 @@ function InstallPrompt() {
 
   const handleInstallClick = async () => {
     if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log(`User ${outcome} the install prompt`);
-      
-      if (outcome === 'accepted') {
-        localStorage.setItem('installPromptDismissed', 'true');
+      try {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User ${outcome} the install prompt`);
+        
+        if (outcome === 'accepted') {
+          localStorage.setItem('installPromptDismissed', 'true');
+        }
+      } catch (err) {
+        console.error('Error during install prompt:', err);
       }
     } else if (isIOS) {
       // iOS doesn't support beforeinstallprompt, show custom instructions
@@ -126,11 +135,11 @@ function InstallPrompt() {
               </div>
               
               <p className="text-gray-600 dark:text-gray-300 mb-6">
-                {isIOS && isSafari ? (
+                {isIOS ? (
                   <>
                     Add this app to your home screen for faster access:
                     <ol className="list-decimal pl-5 mt-2 space-y-1">
-                      <li>Tap the Share button</li>
+                      <li>Tap the Share button <i className="fas fa-share-square ml-1"></i></li>
                       <li>Select "Add to Home Screen"</li>
                       <li>Tap "Add" in the top right corner</li>
                     </ol>
@@ -145,7 +154,7 @@ function InstallPrompt() {
                   onClick={handleInstallClick}
                   className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
                 >
-                  {isIOS && isSafari ? "Show Instructions" : "Install"}
+                  {isIOS ? "Show Instructions" : "Install"}
                 </button>
                 <button
                   onClick={handleDismissClick}
