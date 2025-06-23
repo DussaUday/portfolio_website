@@ -52,46 +52,53 @@ const Chatbox = () => {
   };
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim()) return;
+  if (!inputValue.trim()) return;
 
-    const userMessage = { 
-      name: 'You', 
-      message: inputValue,
-      isBot: false 
-    };
-    setMessages(prev => [...prev, userMessage]);
-    setInputValue('');
-    setIsTyping(true);
-
-    try {
-      const response = await fetch('https://dev-server-tvbl.onrender.com/api/chat/predict', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: inputValue })
-      });
-      
-      const data = await response.json();
-      const botMessage = { 
-        name: 'Irah', 
-        message: data.answer,
-        isBot: true 
-      };
-      setTimeout(() => {
-        setMessages(prev => [...prev, botMessage]);
-        setIsTyping(false);
-      }, 800);
-    } 
-    catch (error) {
-      console.error('Error:', error);
-      const errorMessage = { 
-        name: 'Irah', 
-        message: "Sorry! I'm having trouble connecting. Please try again later.",
-        isBot: true 
-      };
-      setMessages(prev => [...prev, errorMessage]);
-      setIsTyping(false);
-    }
+  const userMessage = { 
+    name: 'You', 
+    message: inputValue,
+    isBot: false 
   };
+  setMessages(prev => [...prev, userMessage]);
+  setInputValue('');
+  setIsTyping(true);
+
+  try {
+    const response = await fetch('https://dev-server-tvbl.onrender.com/api/chat/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: inputValue })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    if (!data.answer) {
+      throw new Error('No answer received from server');
+    }
+
+    const botMessage = { 
+      name: 'Irah', 
+      message: data.answer,
+      isBot: true 
+    };
+    setMessages(prev => [...prev, botMessage]);
+  } 
+  catch (error) {
+    console.error('Error:', error);
+    const errorMessage = { 
+      name: 'Irah', 
+      message: "Sorry! I'm having trouble connecting. Please try again later.",
+      isBot: true 
+    };
+    setMessages(prev => [...prev, errorMessage]);
+  } finally {
+    setIsTyping(false);
+  }
+};
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
