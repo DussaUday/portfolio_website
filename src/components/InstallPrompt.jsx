@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-function InstallPrompt() {
+function InstallPrompt({ darkMode }) {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
@@ -56,6 +56,7 @@ function InstallPrompt() {
         
         if (outcome === 'accepted') {
           localStorage.setItem('installPromptDismissed', 'true');
+          setIsVisible(false);
         }
       } catch (err) {
         console.error('Error during install prompt:', err);
@@ -66,12 +67,13 @@ function InstallPrompt() {
         'To install this app:\n1. Tap the Share button\n2. Select "Add to Home Screen"\n3. Tap "Add" in the top right corner'
       );
       localStorage.setItem('installPromptDismissed', 'true');
+      setIsVisible(false);
     } else {
       // Fallback for other browsers
       alert('To install this app, look for "Install" or "Add to Home Screen" in your browser\'s menu.');
+      localStorage.setItem('installPromptDismissed', 'true');
+      setIsVisible(false);
     }
-    setIsVisible(false);
-    setDeferredPrompt(null);
   };
 
   const handleDismissClick = () => {
@@ -109,14 +111,20 @@ function InstallPrompt() {
               damping: 25,
               stiffness: 300,
             }}
-            className="relative z-10 w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden"
+            className={`relative z-10 w-full max-w-md rounded-xl shadow-2xl overflow-hidden ${
+              darkMode ? 'bg-gray-800' : 'bg-white'
+            }`}
           >
             <div className="p-6">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg">
+                <div className={`p-3 rounded-lg ${
+                  darkMode ? 'bg-blue-900' : 'bg-blue-100'
+                }`}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-blue-600 dark:text-blue-400"
+                    className={`h-6 w-6 ${
+                      darkMode ? 'text-blue-400' : 'text-blue-600'
+                    }`}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -129,12 +137,16 @@ function InstallPrompt() {
                     />
                   </svg>
                 </div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                <h2 className={`text-xl font-bold ${
+                  darkMode ? 'text-white' : 'text-gray-900'
+                }`}>
                   Install App
                 </h2>
               </div>
               
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
+              <p className={`mb-6 ${
+                darkMode ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 {isIOS ? (
                   <>
                     Add this app to your home screen for faster access:
@@ -152,13 +164,21 @@ function InstallPrompt() {
               <div className="flex space-x-3">
                 <button
                   onClick={handleInstallClick}
-                  className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                  className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                    darkMode 
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                      : 'bg-blue-600 hover:bg-blue-700 text-white'
+                  }`}
                 >
                   {isIOS ? "Show Instructions" : "Install"}
                 </button>
                 <button
                   onClick={handleDismissClick}
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                    darkMode
+                      ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                      : 'border-gray-300 text-gray-700 hover:bg-gray-100'
+                  } border`}
                 >
                   Not Now
                 </button>

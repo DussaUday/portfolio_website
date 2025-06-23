@@ -12,7 +12,7 @@ import Templates from './components/Templates';
 import InstallPrompt from './components/InstallPrompt';
 import Chatbox from './components/Chatbox';
 import LandingPage from './components/LandingPage';
-
+import LoginPage from './components/LoginPage';
 function Home() {
   // Improved dark mode state with localStorage persistence
   const [darkMode, setDarkMode] = useState(() => {
@@ -76,6 +76,7 @@ function Home() {
               <Features darkMode={darkMode} />
               <ColorCombinations darkMode={darkMode} />
               <Templates darkMode={darkMode} />
+              <LoginPage darkMode={darkMode} />
               <Contact darkMode={darkMode} />
             </main>
             
