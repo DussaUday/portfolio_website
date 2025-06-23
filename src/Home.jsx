@@ -11,62 +11,76 @@ import Footer from './components/Footer';
 import Templates from './components/Templates';
 import InstallPrompt from './components/InstallPrompt';
 import Chatbox from './components/Chatbox';
-import LoginPage from './components/LoginPage';
 import LandingPage from './components/LandingPage';
 
 function Home() {
+  // Improved dark mode state with localStorage persistence
   const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedMode = localStorage.getItem('darkMode');
-      if (savedMode !== null) {
-        return savedMode === 'true';
-      }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    return false;
+    if (typeof window === 'undefined') return false;
+    const savedMode = localStorage.getItem('devcraft-darkMode');
+    return savedMode ? JSON.parse(savedMode) : 
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  const [showLanding, setShowLanding] = useState(true);
+  // Improved landing page state with sessionStorage persistence
+  const [showLanding, setShowLanding] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    return !sessionStorage.getItem('devcraft-landing-completed');
+  });
 
+  // Toggle dark mode handler
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem('devcraft-darkMode', JSON.stringify(newMode));
   };
 
+  // Apply dark mode class and save to localStorage
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
+      document.documentElement.style.colorScheme = 'dark';
     } else {
       document.documentElement.classList.remove('dark');
+      document.documentElement.style.colorScheme = 'light';
     }
-    localStorage.setItem('darkMode', darkMode);
   }, [darkMode]);
 
+  // Handle landing page completion
   const handleLandingComplete = () => {
     setShowLanding(false);
+    sessionStorage.setItem('devcraft-landing-completed', 'true');
   };
 
+  // Add a cleanup effect for potential memory leaks
+  useEffect(() => {
+    return () => {
+      // Cleanup if needed
+    };
+  }, []);
+
   return (
-    <div className={`min-h-screen flex flex-col ${darkMode ? 'dark' : ''}`}>
-      <AnimatePresence>
+    <div className={`min-h-screen flex flex-col ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
+      <AnimatePresence mode="wait">
         {showLanding ? (
-          <LandingPage onComplete={handleLandingComplete} />
+          <LandingPage onComplete={handleLandingComplete} darkMode={darkMode} />
         ) : (
           <>
-            <InstallPrompt />
+            <InstallPrompt darkMode={darkMode} />
             <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+            
             <main className="flex-grow pt-16">
-              <AnimatePresence mode="wait">
-                <Hero />
-                <Intro />
-                <Features />
-                <ColorCombinations />
-                <Templates />
-                <Contact />
-                <LoginPage />
-              </AnimatePresence>
+              {/* Removed nested AnimatePresence which could cause issues */}
+              <Hero darkMode={darkMode} />
+              <Intro darkMode={darkMode} />
+              <Features darkMode={darkMode} />
+              <ColorCombinations darkMode={darkMode} />
+              <Templates darkMode={darkMode} />
+              <Contact darkMode={darkMode} />
             </main>
-            <Footer />
-            <Chatbox />
+            
+            <Footer darkMode={darkMode} />
+            <Chatbox darkMode={darkMode} />
           </>
         )}
       </AnimatePresence>
