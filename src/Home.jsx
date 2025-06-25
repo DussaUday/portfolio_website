@@ -13,9 +13,8 @@ import InstallPrompt from './components/InstallPrompt';
 import Chatbox from './components/Chatbox';
 import LandingPage from './components/LandingPage';
 import LoginPage from './components/LoginPage';
-import { useNavigate } from 'react-router-dom';
-
 function Home() {
+  // Improved dark mode state with localStorage persistence
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window === 'undefined') return false;
     const savedMode = localStorage.getItem('devcraft-darkMode');
@@ -23,31 +22,42 @@ function Home() {
       window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
+  // Improved landing page state with sessionStorage persistence
   const [showLanding, setShowLanding] = useState(() => {
     if (typeof window === 'undefined') return true;
     return !sessionStorage.getItem('devcraft-landing-completed');
   });
 
-  const navigate = useNavigate();
-
-  // Check for saved route on initial load
-  useEffect(() => {
-    const lastRoute = sessionStorage.getItem('lastRoute');
-    if (lastRoute && lastRoute !== '/') {
-      navigate(lastRoute);
-    }
-  }, [navigate]);
-
+  // Toggle dark mode handler
   const toggleDarkMode = () => {
     const newMode = !darkMode;
     setDarkMode(newMode);
     localStorage.setItem('devcraft-darkMode', JSON.stringify(newMode));
   };
 
+  // Apply dark mode class and save to localStorage
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.style.colorScheme = 'dark';
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.style.colorScheme = 'light';
+    }
+  }, [darkMode]);
+
+  // Handle landing page completion
   const handleLandingComplete = () => {
     setShowLanding(false);
     sessionStorage.setItem('devcraft-landing-completed', 'true');
   };
+
+  // Add a cleanup effect for potential memory leaks
+  useEffect(() => {
+    return () => {
+      // Cleanup if needed
+    };
+  }, []);
 
   return (
     <div className={`min-h-screen flex flex-col ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
@@ -60,6 +70,7 @@ function Home() {
             <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
             
             <main className="flex-grow pt-16">
+              {/* Removed nested AnimatePresence which could cause issues */}
               <Hero darkMode={darkMode} />
               <Intro darkMode={darkMode} />
               <Features darkMode={darkMode} />

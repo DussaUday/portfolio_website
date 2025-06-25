@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
+
 const Chatbox = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -9,6 +10,8 @@ const Chatbox = () => {
   const socketRef = useRef();
   const messagesEndRef = useRef(null);
   const chatButtonRef = useRef(null);
+  const animationFrameRef = useRef(null);
+  const rotationAngle = useRef(0);
 
   // Check for system dark mode preference
   useEffect(() => {
@@ -27,6 +30,7 @@ const Chatbox = () => {
 
     return () => {
       socketRef.current.disconnect();
+      cancelAnimationFrame(animationFrameRef.current);
     };
   }, []);
 
@@ -106,6 +110,29 @@ const Chatbox = () => {
     e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
   };
 
+  // Animation loop for the tire rotation
+  useEffect(() => {
+    if (!isOpen) {
+      const animate = () => {
+        rotationAngle.current = (rotationAngle.current + 1) % 360;
+        if (chatButtonRef.current) {
+          const tireIcon = chatButtonRef.current.querySelector('.tire-icon');
+          if (tireIcon) {
+            tireIcon.style.transform = `rotate(${rotationAngle.current}deg)`;
+          }
+        }
+        animationFrameRef.current = requestAnimationFrame(animate);
+      };
+      animationFrameRef.current = requestAnimationFrame(animate);
+    } else {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+
+    return () => {
+      cancelAnimationFrame(animationFrameRef.current);
+    };
+  }, [isOpen]);
+
   return (
     <div className={`fixed bottom-4 right-4 z-50 ${isOpen ? 'w-full md:w-96 max-w-[calc(100%-2rem)]' : 'w-16 h-16'}`}>
       {/* Chat button with enhanced tire, road, and air animations */}
@@ -118,13 +145,18 @@ const Chatbox = () => {
           aria-label="Open chat"
         >
           {/* Road animation (moving stripes) */}
-          <div className="absolute bottom-0 left-0 right-0 h-3 overflow-hidden">
+          <div className="absolute bottom-0 left-0 right-0 h-4 overflow-hidden">
             <div className={`absolute top-0 left-0 h-full w-full flex ${isDarkMode ? 'opacity-30' : 'opacity-50'}`}>
-              {[...Array(8)].map((_, i) => (
+              {[...Array(12)].map((_, i) => (
                 <div 
                   key={i}
-                  className={`h-full w-4 ${isDarkMode ? 'bg-indigo-400' : 'bg-white'} mr-4 animate-moveRoad`}
-                  style={{ animationDelay: `${i * 100}ms` }}
+                  className={`h-full w-4 ${isDarkMode ? 'bg-indigo-400' : 'bg-white'} mr-6 animate-moveRoad`}
+                  style={{ 
+                    animationDelay: `${i * 100}ms`,
+                    animationDuration: '1s',
+                    animationTimingFunction: 'linear',
+                    animationIterationCount: 'infinite'
+                  }}
                 />
               ))}
             </div>
@@ -132,46 +164,58 @@ const Chatbox = () => {
           
           {/* Air/wind animation (particles) */}
           <div className="absolute inset-0 overflow-hidden">
-            {[...Array(6)].map((_, i) => (
+            {[...Array(12)].map((_, i) => (
               <div
                 key={i}
-                className={`absolute rounded-full ${isDarkMode ? 'bg-indigo-300/30' : 'bg-white/30'}`}
+                className={`absolute rounded-full ${isDarkMode ? 'bg-indigo-300/40' : 'bg-white/40'}`}
                 style={{
-                  width: `${Math.random() * 4 + 2}px`,
-                  height: `${Math.random() * 4 + 2}px`,
+                  width: `${Math.random() * 6 + 2}px`,
+                  height: `${Math.random() * 6 + 2}px`,
                   top: `${Math.random() * 60}%`,
                   left: `${Math.random() * 100}%`,
                   animation: `float ${Math.random() * 3 + 2}s linear infinite`,
                   animationDelay: `${Math.random() * 2}s`,
-                  opacity: Math.random() * 0.7 + 0.3
+                  opacity: Math.random() * 0.7 + 0.3,
+                  transform: `scale(${Math.random() * 0.5 + 0.5})`
                 }}
               />
             ))}
           </div>
 
           {/* Tire icon with rotation and tread pattern */}
-          <div className="relative h-10 w-10 transition-transform duration-500 hover:rotate-180">
+          <div className="relative h-12 w-12 transition-transform duration-500">
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               viewBox="0 0 24 24" 
-              className={`h-full w-full ${isDarkMode ? 'text-indigo-400' : 'text-white'}`}
+              className={`tire-icon h-full w-full transition-transform duration-100 ${isDarkMode ? 'text-indigo-400' : 'text-white'}`}
               fill="none" 
               stroke="currentColor" 
               strokeWidth="2"
+              style={{ transformOrigin: 'center' }}
             >
-              <circle cx="12" cy="12" r="8" />
-              <circle cx="12" cy="12" r="3" />
-              <line x1="12" y1="4" x2="12" y2="6" />
-              <line x1="12" y1="18" x2="12" y2="20" />
-              <line x1="4" y1="12" x2="6" y2="12" />
-              <line x1="18" y1="12" x2="20" y2="12" />
-              <line x1="5.64" y1="5.64" x2="7.05" y2="7.05" />
-              <line x1="16.95" y1="16.95" x2="18.36" y2="18.36" />
-              <line x1="5.64" y1="18.36" x2="7.05" y2="16.95" />
-              <line x1="16.95" y1="7.05" x2="18.36" y2="5.64" />
+              {/* Outer tire circle */}
+              <circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round" />
+              
+              {/* Tire tread pattern */}
+              <path d="M5 12h14" strokeWidth="1.5" />
+              <path d="M12 5v14" strokeWidth="1.5" />
+              <path d="M18.5 5.5l-13 13" strokeWidth="1.5" />
+              <path d="M18.5 18.5l-13-13" strokeWidth="1.5" />
+              
+              {/* Inner hub */}
+              <circle cx="12" cy="12" r="3" strokeWidth="1.5" />
+              
+              {/* Bolt/nut indicator */}
+              <path d="M12 8v8" strokeWidth="2" />
+              <path d="M8 12h8" strokeWidth="2" />
             </svg>
+            
+            {/* Active indicator */}
             <div className={`absolute top-0 right-0 h-2 w-2 rounded-full animate-pulse ${isDarkMode ? 'bg-green-400' : 'bg-white'}`}></div>
           </div>
+          
+          {/* Motion blur effect when moving */}
+          <div className={`absolute inset-0 rounded-full pointer-events-none ${isDarkMode ? 'bg-indigo-900/20' : 'bg-white/20'}`}></div>
         </button>
       ) : (
         <div 
@@ -299,6 +343,26 @@ const Chatbox = () => {
           </div>
         </div>
       )}
+      
+      {/* Add global styles for animations */}
+      <style jsx global>{`
+        @keyframes moveRoad {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-24px); }
+        }
+        @keyframes float {
+          0% { transform: translateX(0) translateY(0); opacity: 0; }
+          10% { opacity: 0.7; }
+          90% { opacity: 0.7; }
+          100% { transform: translateX(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 40 + 20}px) 
+                           translateY(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 20 + 10}px); 
+                opacity: 0; }
+        }
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
+        }
+      `}</style>
     </div>
   );
 };
