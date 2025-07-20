@@ -159,7 +159,7 @@ const Contact = () => {
                 WhatsApp
               </a>
               <a 
-                href="mailto:yalamanchilimanikanta005@gmail.com" 
+                href="mailto:dussauday469@gmail.com" 
                 className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full flex items-center transition-all"
               >
                 <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
