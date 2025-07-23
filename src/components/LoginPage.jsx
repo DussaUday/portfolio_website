@@ -96,7 +96,7 @@ const LoginPage = () => {
             mb-10
           "
         >
-          Join now to showcase your skills with a stunning portfolio.
+          Join now to showcase your skills with a stunning portfolio. For the best experience, try opening this on a PC or desktop browser.
         </motion.p>
         
         <motion.div
