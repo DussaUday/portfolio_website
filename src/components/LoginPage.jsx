@@ -124,7 +124,7 @@ const LoginPage = () => {
               shadow-xl
             "
           >
-            Login Now
+            Login / sign up
           </motion.button>
         </motion.div>
       </div>
