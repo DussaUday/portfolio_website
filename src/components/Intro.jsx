@@ -36,7 +36,7 @@ const Intro = () => {
             {[
               { number: '200+', label: 'Templates' },
               { number: '24/7', label: 'Support' },
-              { number: '10K+', label: 'Happy Users' },
+              { number: '100+', label: 'Happy Users' },
               { number: '98%', label: 'Satisfaction' }
             ].map((item, index) => (
               <div key={index} className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl">
