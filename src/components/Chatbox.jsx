@@ -280,9 +280,16 @@ const Chatbox = () => {
                   <div className={`text-xs font-semibold mb-1 ${msg.isBot ? (isDarkMode ? 'text-indigo-300' : 'text-indigo-600') : 'text-blue-100'}`}>
                     {msg.name}
                   </div>
-                  <div className="whitespace-pre-wrap">
-                    {msg.message}
-                  </div>
+                  <div
+  className="whitespace-pre-wrap"
+  dangerouslySetInnerHTML={{
+    __html: msg.message.replace(
+      /(https?:\/\/[^\s]+)/g,
+      (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" class="underline text-blue-500 hover:text-blue-700">${url}</a>`
+    ),
+  }}
+></div>
+
                 </div>
               </div>
             ))}
