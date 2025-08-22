@@ -83,7 +83,7 @@ const LoginPage = () => {
             mb-8 leading-tight
           "
         >
-          Create Your FREE Portfolio in Seconds with iRah
+          Create Your FREE Portfolio or E-Commerce Site in Seconds
         </motion.h2>
         
         <motion.p
@@ -96,9 +96,22 @@ const LoginPage = () => {
             mb-10
           "
         >
-          Join now to showcase your skills with a stunning portfolio.
+          Join now to showcase your skills with a stunning portfolio or E-Commerce.
+          
         </motion.p>
-        
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
+          className="
+            text-lg 
+            text-gray-700 dark:text-gray-300 
+            mb-10
+          "
+        >
+          
+          “For the best editing and preview experience, please switch to a desktop or laptop.”
+        </motion.p>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -124,7 +137,7 @@ const LoginPage = () => {
               shadow-xl
             "
           >
-            Login Now
+            Login / Signup
           </motion.button>
         </motion.div>
       </div>

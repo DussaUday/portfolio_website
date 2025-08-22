@@ -24,7 +24,7 @@ const Hero = () => {
               accessible to everyone.
             </p>
             <p className="text-lg md:text-xl font-semibold text-blue-900 dark:text-red-500 mb-8 text-center animate-pulse">
-              🎉 Launch your professional portfolio today — starting at only ₹799/- 🎉
+              🎉 Launch your professional premium portfolio today — starting at only ₹799/- 🎉
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <motion.a
@@ -41,7 +41,7 @@ const Hero = () => {
                 href="#login"
                 className="px-8 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg font-medium text-center transition-all"
               >
-                Get Started with Free student Portfolio
+                Get Started with Free Portfolio / E-Commerce site
               </motion.a>
             </div>
           </motion.div>

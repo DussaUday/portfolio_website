@@ -24,6 +24,7 @@ import { Template18 } from '../templates/Template18';
 import { Template19 } from '../templates/Template19';
 import { Template20 } from '../templates/Template20';
 import { Template21 } from '../templates/Template21';
+import { Template22} from '../templates/Template22';
 
 function TemplateEditor() {
   const { templateId } = useParams();
@@ -46,6 +47,18 @@ function TemplateEditor() {
     certificates: [],
     profilePic: null,
     resumeUrl: null,
+    design: {
+    primaryColor: '#6B46C1',
+    secondaryColor: '#DB2777',
+    backgroundColor: '#F9FAFB',
+    textColor: '#1F2937',
+    fontFamily: 'sans-serif',
+    borderRadius: '0.5rem',
+    animationType: 'float',
+    sectionPadding: '4rem',
+    cardShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+    hoverEffect: 'scale'
+  }
   });
   const [profilePicFile, setProfilePicFile] = useState(null);
   const [projectImages, setProjectImages] = useState([]);
@@ -320,6 +333,7 @@ function TemplateEditor() {
     template19: Template19,
     template20: Template20,
     template21: Template21,
+    template22: Template22,
   };
 
   const SelectedTemplate = templateComponents[templateId] || Template2;
@@ -556,57 +570,75 @@ function TemplateEditor() {
       };
 
       const clientScript = `
-        <script>
-          document.addEventListener('DOMContentLoaded', () => {
-            const menuToggle = document.getElementById('menu-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuIcon = document.getElementById('menu-icon');
-            
-            if (menuToggle && mobileMenu && menuIcon) {
-              menuToggle.addEventListener('click', () => {
-                const isHidden = mobileMenu.classList.contains('hidden');
-                mobileMenu.classList.toggle('hidden', !isHidden);
-                mobileMenu.classList.toggle('flex', isHidden);
-                menuIcon.setAttribute('d', isHidden ? 
-                  'M6 18L18 6M6 6l12 12' : 
-                  'M4 6h16M4 12h16M4 18h16'
-                );
-              });
-
-              document.querySelectorAll('#mobile-menu a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                  e.preventDefault();
-                  const href = link.getAttribute('href');
-                  const target = document.querySelector(href);
-                  if (target) {
-                    const headerOffset = document.querySelector('header')?.offsetHeight || 0;
-                    const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
-                    window.scrollTo({
-                      top: elementPosition - headerOffset,
-                      behavior: 'smooth'
-                    });
-                    mobileMenu.classList.add('hidden');
-                    mobileMenu.classList.remove('flex');
-                    menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-                  }
-                });
-              });
-            }
-
-            document.querySelectorAll('img').forEach(img => {
-              img.addEventListener('error', (e) => {
-                e.target.style.display = 'none';
-                const parent = e.target.parentElement;
-                const fallback = document.createElement('div');
-                fallback.className = 'w-full h-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 rounded';
-                fallback.textContent = 'Image Not Available';
-                parent.appendChild(fallback);
-              });
-            });
-          });
-        </script>
-      `;
-
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          // ... (existing client script)
+        });
+      </script>
+      <style>
+        :root {
+          --primary: ${updatedComponents.design.primaryColor};
+          --secondary: ${updatedComponents.design.secondaryColor};
+          --bg: ${updatedComponents.design.backgroundColor};
+          --text: ${updatedComponents.design.textColor};
+          --font: ${updatedComponents.design.fontFamily};
+          --rounded: ${updatedComponents.design.borderRadius};
+          --section-padding: ${updatedComponents.design.sectionPadding};
+          --shadow: ${updatedComponents.design.cardShadow};
+        }
+        
+        @keyframes float {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+          100% { transform: translateY(0px); }
+        }
+        @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+        }
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+        
+        .custom-animation {
+          animation: ${updatedComponents.design.animationType} 3s ease-in-out infinite;
+        }
+        
+        .hover-effect {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-effect:hover {
+          ${updatedComponents.design.hoverEffect === 'scale' ? 'transform: scale(1.03);' : ''}
+          ${updatedComponents.design.hoverEffect === 'lift' ? 'transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);' : ''}
+          ${updatedComponents.design.hoverEffect === 'glow' ? 'box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);' : ''}
+        }
+        
+        .gradient-text {
+          background: linear-gradient(45deg, var(--primary), var(--secondary));
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          animation: gradient-shift 3s linear infinite;
+        }
+      </style>
+    `;
+    if (!updatedComponents.design) {
+        updatedComponents.design = {
+          primaryColor: '#6B46C1',
+          secondaryColor: '#DB2777',
+          backgroundColor: '#F9FAFB',
+          textColor: '#1F2937',
+          fontFamily: 'sans-serif',
+          borderRadius: '0.5rem',
+          animationType: 'float',
+          sectionPadding: '4rem',
+          cardShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+          hoverEffect: 'scale'
+        };
+      }
       const htmlContent = `
         <!DOCTYPE html>
         <html lang="en">

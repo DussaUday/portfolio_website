@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -10,11 +9,11 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Templates from './components/Templates';
 import InstallPrompt from './components/InstallPrompt';
-import Chatbox from './components/Chatbox';
 import LandingPage from './components/LandingPage';
 import LoginPage from './components/LoginPage';
+
 function Home() {
-  // Improved dark mode state with localStorage persistence
+  // Initialize dark mode with localStorage persistence
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window === 'undefined') return false;
     const savedMode = localStorage.getItem('devcraft-darkMode');
@@ -22,7 +21,7 @@ function Home() {
       window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  // Improved landing page state with sessionStorage persistence
+  // Initialize landing page state with sessionStorage persistence
   const [showLanding, setShowLanding] = useState(() => {
     if (typeof window === 'undefined') return true;
     return !sessionStorage.getItem('devcraft-landing-completed');
@@ -52,13 +51,6 @@ function Home() {
     sessionStorage.setItem('devcraft-landing-completed', 'true');
   };
 
-  // Add a cleanup effect for potential memory leaks
-  useEffect(() => {
-    return () => {
-      // Cleanup if needed
-    };
-  }, []);
-
   return (
     <div className={`min-h-screen flex flex-col ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
       <AnimatePresence mode="wait">
@@ -68,9 +60,7 @@ function Home() {
           <>
             <InstallPrompt darkMode={darkMode} />
             <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-            
             <main className="flex-grow pt-16">
-              {/* Removed nested AnimatePresence which could cause issues */}
               <Hero darkMode={darkMode} />
               <Intro darkMode={darkMode} />
               <Features darkMode={darkMode} />
@@ -79,9 +69,7 @@ function Home() {
               <LoginPage darkMode={darkMode} />
               <Contact darkMode={darkMode} />
             </main>
-            
             <Footer darkMode={darkMode} />
-            <Chatbox darkMode={darkMode} />
           </>
         )}
       </AnimatePresence>
